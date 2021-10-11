@@ -63,9 +63,9 @@ function response(mixed $responseData, int $httpStatus): mixed
     header('Content-Type: application/json');
 
     $response = match (true) {
-        is_string($responseData) => json_encode(['error' => $responseData]),
-        is_object($responseData) => json_encode((array) $responseData),
-        default                  => json_encode($responseData),
+        is_string($responseData) => json_encode(['error' => $responseData], JSON_UNESCAPED_SLASHES),
+        is_object($responseData) => json_encode((array) $responseData, JSON_UNESCAPED_SLASHES),
+        default                  => json_encode($responseData, JSON_UNESCAPED_SLASHES),
     };
 
     error_log(sprintf('[HTTP %d] response: %s', $httpStatus, $response));
